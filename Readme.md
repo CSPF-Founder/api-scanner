@@ -72,3 +72,8 @@ For information on how to use the panel refer to [Manual.md](Manual.md)
 - If you want to start the VM after your computer restarts you can give `vargant up` on this folder or start from the virtualbox manager. 
 
 - Once up can access the VM by giving the command `vagrant ssh apiscannervm`
+
+## Contributors
+
+Sabari Selvan
+Suriya Prakash
