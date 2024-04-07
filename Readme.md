@@ -76,4 +76,5 @@ For information on how to use the panel refer to [Manual.md](Manual.md)
 ## Contributors
 
 Sabari Selvan
+
 Suriya Prakash
