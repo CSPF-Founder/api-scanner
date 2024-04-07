@@ -1,0 +1,116 @@
+{{define "header"}}
+
+<div class="sidebar sidebar-light sidebar-fixed" id="sidebar">
+    <a href="/scans/add">
+        <div class="sidebar-brand d-none d-md-flex" style="padding: 6.8px;">
+            <img src="/external/images/main-logo.png?v=1.01" class="sidebar-brand-full mx-auto "
+                style="max-height: 50px;min-height: 50px;">
+
+            <svg class="sidebar-brand-narrow text-white mx-auto" width="35" height="35" alt="Menu">
+                <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-menu'></use>
+            </svg>
+
+            <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+        </div>
+    </a>
+
+    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        <li class=" nav-item">
+            <!-- <a class="nav-link" href="/users/dashboard">
+                    <svg class='nav-icon'>
+                        <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-home'></use>
+                    </svg>
+                    Home
+                </a> -->
+            <a class="nav-link" href="/scans/add">
+                <svg class='nav-icon'>
+                    <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-life-ring'></use>
+                </svg>
+                Add Scan
+            </a>
+            <a class="nav-link" href="/scans">
+                <svg class='nav-icon'>
+                    <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-list'></use>
+                </svg>
+                View Scans
+            </a>
+            <a class="nav-link" href="/users/profile">
+                <svg class='nav-icon'>
+                    <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-user'></use>
+                </svg>
+                Profile
+            </a>
+            <a class="nav-link" href="/users/logout">
+                <svg class='nav-icon'>
+                    <use xlink:href='/static/vendor/@coreui/icons/svg/free.svg#cil-account-logout'>
+                    </use>
+                </svg>
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="wrapper d-flex flex-column min-vh-100 bg-light bg-opacity-50 dark:bg-transparent">
+    <header class="header header-light bg-primary header-sticky mb-4">
+        <div class="container-fluid">
+            <h4 class="mx-auto text-white">{{.ProductTitle}}</h4>
+            <button class="header-toggler px-md-0 me-md-3 d-md-none" type="button"
+                onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+                <svg class="icon icon-lg">
+                    <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-menu"></use>
+                </svg>
+            </button>
+
+            <ul class="header-nav me-4">
+                <li class="nav-item dropdown d-flex align-items-center">
+                    <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        <div class="avatar avatar-md"> <svg class=" avatar-img icon-xxl icon me-2">
+                                <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-user">
+                                </use>
+                            </svg><span class="avatar-status bg-success"></span></div>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end pt-0">
+
+                        <!-- <a class="dropdown-item" href="/users/edit-personal-details">
+                                <svg class="icon me-2">
+                                    <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-settings"></use>
+                                </svg> My Profile
+                            </a> -->
+
+                        <a class="dropdown-item" href="/users/logout">
+                            <svg class="icon me-2">
+                                <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-account-logout">
+                                </use>
+                            </svg> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- App Message Box -->
+    <div id="app-msg-box" class="modal mt-5 pt-5" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content" class="body flex-grow-1 px-3">
+        {{template "flashes" .Flashes}}
+
+        {{end}}

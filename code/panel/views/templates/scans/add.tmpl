@@ -1,0 +1,62 @@
+{{define "body"}}
+<div class="row pr-3">
+    <div class="col-12 p-0 ">
+        <div class="scroller card mb-4 col-sm-9 col-lg-12 table-wrapper ml-0 p-0 leftPadding-10">
+            <div class="direction-r pr-3 card-body">
+                <div class="fs-2 fw-semibold text-center">Add Scan</div>
+                <hr>
+                <div class="tab-content rounded-bottom">
+                    <div class="tab-pane p-3 active preview" role="tabpanel">
+                        <form action="/scans" id="add-scan-form" method="POST" enctype="multipart/form-data">
+                            <div class="row pt-4">
+                                <div class="col-lg-2 col-sm-0"> </div>
+                                <div class="col-lg-2 col-sm-4">
+                                    <label>Select Openapi File</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input type="file" class="form-control sharpedge" name="yaml_file"
+                                        accept=".yml, .yaml" required>
+                                </div>
+                                <div class="col-lg-2 col-sm-2"> </div>
+                            </div>
+
+                            <div class="row pt-4">
+                                <div class="col-lg-2 col-sm-0"> </div>
+                                <div class="col-lg-2 col-sm-4">
+                                    <label>Http Headers Input</label>
+                                </div>
+                                <a class="circle-icon bg-blue1 tooltip-bs-style1 add_new_http_headers"
+                                    href="javascript:void(0);"
+                                    style="margin-top:6px; margin-left:12px; width:21px; height:21px;">
+                                    <i class='fa fa-plus text-white' style="margin-left:-7px;">
+                                        <span class="tooltip-bs-style1-text"> Add New</span>
+                                    </i>
+                                </a>
+                                <label class="col-lg-2 col-sm-2" style="margin-top:3px;">Add HTTP
+                                    Header</label>
+                                <div class="col-lg-2 col-sm-2"> </div>
+                            </div>
+
+                            <div class="http_headers" id="http-headers-div">
+                            </div>
+                            <div class="row pt-4">
+                                <div class="col-lg-4 col-sm-4"> </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class=" ">
+                                        <button id="add-scan-btn" type="submit"
+                                            class="btn btn-primary center"><b>Add</b></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4"> </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "scripts"}}
+<script type="module" src='{{assetPath "app/scans.js"}}'></script>
+{{end}}

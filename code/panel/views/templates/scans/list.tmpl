@@ -1,0 +1,69 @@
+{{define "body"}}
+<div class="row pr-3">
+    <div class="col-12 p-0 ">
+        <div class="scroller card mb-4 col-12 col-lg-12 table-wrapper ml-0 p-0 ">
+            <div class="direction-r card-body">
+                <div class="fs-2 fw-semibold text-center">Scan List</div>
+                <hr>
+                <div class="tab-content rounded-bottom">
+                    <div class="tab-pane active preview overflow-auto" role="tabpanel" id="preview-746">
+                        <table class="table table-striped border" id="scan-list">
+                            <thead>
+                                <tr class="background-green text-white">
+                                    <th>
+                                        <div class="dsc f-weight250">Scan Id</div>
+                                    </th>
+                                    <th>
+                                        <div class="dsc f-weight250">API URL</div>
+                                    </th>
+                                    <th>
+                                        <div class="dsc f-weight250">Scan Status</div>
+                                    </th>
+                                    <th>
+                                        <div class="dsc f-weight250">Completed Time</div>
+                                    </th>
+                                    <th class="f-weight250">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .Data}}
+                                <tr data-id='{{.ID}}'>
+                                    <td>{{.ID}}</td>
+                                    <td>{{.ApiURL}}</td>
+                                    <td>{{.StatusText}}</td>
+                                    <td>{{.CompletedTimeString}}</td>
+                                    <td>
+                                        {{if .ScanCompleted}}
+                                        <a class="btn btn-sm btn-primary text-white" href="/scans/{{.ID}}/report">
+                                            <b> Download Report</b>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary text-white" href="/scans/{{.ID}}/error-logs">
+                                            <b> Download error_requests.zip</b>
+                                        </a>
+                                        {{else}}
+                                        <a class="btn btn-sm btn-primary text-white disabled" href="#">
+                                            <b> Download Report</b>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary text-white disabled" href="#">
+                                            <b> Download error_requests.zip</b>
+                                        </a>
+                                        {{end}}
+
+                                        <button class="btn btn-sm btn-danger text-white delete-scan">
+                                            <b> Delete</b>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "scripts"}}
+<script type="module" src='{{assetPath "app/scans.js"}}'></script>
+{{end}}

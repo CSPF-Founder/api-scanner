@@ -1,0 +1,46 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>403 - Access Denied</title>
+    <link rel="stylesheet" href="/static/vendor/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="/static/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/static/css/style.min.css" rel="stylesheet">
+
+</head>
+
+<body class="nav-md">
+
+    <div class="bg-light min-vh-100 d-flex flex-row align-items-center dark:bg-transparent">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="clearfix">
+                        <h1 class="display-3 me-4">403 - Access Denied</h1>
+                        {{if .Flashes}}
+                        {{range .Flashes}}
+                        <h4 class="pt-3">{{.Message}}</h4>
+                        {{end}}
+                        {{else}}
+                        <h4 class="pt-3">Sorry, an unknown error has occurred - Please contact the admin</h4>
+                        {{end}}
+                        <h4 class="pt-3"> If the problem persists feel free to contact us</h4>
+                        <h4 class="pt-3"><a class="btn btn-sm btn-primary" href="{{.PreviousPage}}">Go Back </a></h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="/static/vendor/@coreui/coreui-pro/js/coreui.bundle.min.js"></script>
+<script src="/static/vendor/simplebar/js/simplebar.min.js"></script>
+
+</html>
+{{end}}

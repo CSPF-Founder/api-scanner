@@ -1,0 +1,20 @@
+stages:
+  - build
+  - lint
+
+build:
+  stage: build
+  image: golang:1.21.3
+  tags:
+    - go
+  script:
+    - make build
+
+lint:
+  stage: lint
+  image: golangci/golangci-lint:latest
+  tags:
+    - go
+  script:
+    - golangci-lint run --timeout 5m
+

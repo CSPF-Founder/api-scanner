@@ -1,0 +1,53 @@
+FROM golang:1.22.1
+
+
+RUN apt-get update && \
+	apt-get install --no-install-recommends -y jq libcap2-bin ca-certificates 
+
+# Install SQLite development package
+RUN apt-get update && apt-get install -y libsqlite3-dev
+
+
+RUN apt install -y curl
+
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+RUN apt-get install -y nodejs
+
+# create a working directory inside the image
+WORKDIR /app/panel/
+
+# RUN useradd -m -d /app/panel/ -s /bin/bash app
+RUN useradd -m -d /home/app/ -s /bin/bash app
+
+RUN mkdir /app/panel/tmp/ && chown app:app /app/panel/tmp/
+RUN mkdir /app/panel/.cache/ && chown app:app /app/panel/.cache/
+
+# copy Go modules and dependencies to image
+COPY go.mod go.sum ./
+COPY docker/dev.sh ./docker/
+
+# download Go modules and dependencies
+RUN go mod download
+
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+
+RUN npm install
+
+# Return to the main app directory
+WORKDIR /app/panel/
+
+# copy the source code into the image
+# COPY . .
+
+RUN go install github.com/cosmtrek/air@latest
+
+RUN chmod +x /app/panel/docker/dev.sh
+
+USER app
+
+EXPOSE 8080 8443
+
+
+# CMD ["air"]
+CMD ["/app/panel/docker/dev.sh"]

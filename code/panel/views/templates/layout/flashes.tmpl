@@ -1,0 +1,10 @@
+{{define "flashes"}}
+    {{range .}}
+        <div class="flash-alert-message alert alert-{{.Type}} {{if .Closable}} alert-dismissible {{end}}">
+            {{if .Closable}}
+                <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
+            {{end}}
+            {{.Message}}
+        </div>
+    {{end}}
+{{end}}

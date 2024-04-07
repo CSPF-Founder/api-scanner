@@ -1,0 +1,54 @@
+services:
+
+  mariadb:
+    image: mariadb:10.11.3
+    container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: '[ROOT_PASS_TO_REPLACE]'
+      MARIADB_USER: 'api_scanner'
+      MARIADB_PASSWORD: '[PASSWORD_TO_REPLACE]'
+      MARIADB_DATABASE: 'api_db'
+    volumes:
+      - ./volumes/db/mariadb:/var/lib/mysql
+    ports:
+      - '127.0.0.1:3306:3306'
+
+  panel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mariadb
+    restart: always
+    container_name: panel
+    environment:
+      DATABASE_URI: api_scanner:[PASSWORD_TO_REPLACE]@(mariadb:3306)/api_db?charset=utf8&parseTime=True&loc=Local
+      COPYRIGHT_FOOTER_COMPANY: Cyber Security & Privacy Foundation
+
+      PRODUCT_TITLE: API Scanner
+      USE_DOTENV: 'false'
+      SERVER_ADDRESS: 0.0.0.0:443
+      DBMS_TYPE: mysql
+      WORK_DIR: /app/data/work_dir/
+      # The temp_uploads should be in the same device as the WORK_DIR(or docker gives invalid-cross)
+      TEMP_UPLOADS_DIR: /app/data/temp_uploads/
+      MIGRATIONS_PREFIX: db
+      # This is not used to write any logs 
+      LOG_FILENAME: /tmp/logfile
+      LOGGING_LEVEL: info
+      # TLS configuration
+      USE_TLS: 'true'
+      CERT_PATH: /app/panel/certs/panel.crt
+      KEY_PATH: /app/panel/certs/panel.key
+
+    user: '1000' #  host user id
+    volumes:
+      - /app/data/:/app/data/
+      - /app/panel/certs/:/app/panel/certs/
+      - /app/panel/frontend/external/:/app/panel/frontend/external/
+
+    ports:
+      - '443:443'
+
+ 

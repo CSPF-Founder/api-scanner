@@ -1,0 +1,97 @@
+{{define "body"}}
+<!-- new theme -->
+<div class="bg-light min-vh-100 d-flex flex-column align-items-center dark:bg-transparent">
+    <div class="container d-flex flex-row flex-grow-1 align-items-center justify-content-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <form action="/setup/create-user" id="create-user-form" method="POST" autocomplete="off">
+                    <div class="card-group d-block d-md-flex row">
+                        <div class="card text-white bg-primary col-md-7 p-4 mb-0">
+                            <div class="card-body">
+                                <h3>{{.ProductTitle}} - Create User</h3>
+                                <p class=""></p>
+
+
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-user">
+                                            </use>
+                                        </svg></span>
+                                    <input type="text" class="form-control" name="username" id="username"
+                                        placeholder="Username" minlength="2" required>
+                                </div>
+
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-lock-locked">
+                                            </use>
+                                        </svg></span>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        placeholder="Password (Minimum length: 10 characters)" minlength="10" required>
+                                </div>
+
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-lock-locked">
+                                            </use>
+                                        </svg></span>
+                                    <input type="password" class="form-control" name="confirm_password"
+                                        id="confirm-password" placeholder="Confirm Password" title="Retype the password"
+                                        minlength="10" required>
+                                </div>
+
+                                <div class="input-group mb-3"><span class="input-group-text">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="/static/vendor/@coreui/icons/svg/free.svg#cil-envelope-open">
+                                            </use>
+                                        </svg></span>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                        required>
+                                </div>
+
+                                <p class=""></p>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button form="create-user-form" class="btn btn-secondary" type="submit"
+                                            name="register" value="Register">Create</button>
+                                    </div>
+                                    <div class="col-6 text-end">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group wrapper justify-content-center mb-2">
+                                <h5 class="text-warning">
+                                    {{template "flashes" .Flashes}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="card col-md-5 d-flex flex-row py-5 align-items-center justify-content-center">
+                            <div class="card-body text-center">
+                                <div>
+                                    <img class="img-thumbnail img-center-100 border-0 center-block"
+                                        src="/external/images/secondary-logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto block display-block flex-row">
+        <footer class="mx-auto page-footer font-small blue pt-4">
+            <p class="text-center">&copy; {{.CurrentYear}} {{.CopyrightFooterCompany}}. All Rights Reserved. </p>
+        </footer>
+    </div>
+</div>
+{{end}}
+{{define "scripts"}}
+<script src="/static/vendor/@coreui/coreui-pro/js/coreui.bundle.min.js"></script>
+<script src="/static/vendor/simplebar/js/simplebar.min.js"></script>
+
+
+{{end}}

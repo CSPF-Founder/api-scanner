@@ -1,0 +1,338 @@
+a,a:hover{
+    text-decoration: none;
+}
+@media (min-width: 1200px){
+    .container {
+        max-width: 1110px;
+    }
+}
+.container{
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: 15%;
+
+    margin-top: 20px;
+    padding-top: 15px;
+    transition: all 0.3s ease-out;
+    min-height: 88%;
+    position: relative;
+}
+.container__minify {
+    margin-left: 50px;
+}
+.container__minify #content  {
+    width: 1290px;
+}
+#content{
+    width: 1130px;
+    margin-left:3px;
+    margin-right:15px;
+}
+@media (min-width: 1500px){
+    #content {
+        width: 100%;
+    }
+    .container {
+        max-width: 1495px;
+    }
+
+    #footer  {
+        width: 1280px;
+    }
+
+    .container__minify #content  {
+        width: 1445px;
+    }
+
+    .container__minify #footer  {
+        width: 1445px;
+    }
+
+    .container__minify {
+        margin-left: 60px;
+    }
+}
+
+@media (min-width: 1900px) {
+    #content {
+        width: 100%;
+    }
+    .container__minify {
+        max-width: 1806px;
+    }
+
+    #footer  {
+        width: 100%;
+    }
+
+    .container__minify #content  {
+        width: 100%;
+    }
+    .container__minify #footer  {
+        width: 100%;
+    }
+
+    .container__minify {
+        margin-left: 60px;
+    }
+}
+
+#app-msg-box .modal-footer{
+    border:0;
+}
+#app-msg-box .close{
+    color:white;
+}
+.bg-card-header1 {
+    background-color: #2b3d51;
+}
+.menu--link {
+    margin-bottom: 0;
+}
+
+.auto-cursor-table td{
+    cursor: auto !important;
+}
+
+
+
+/** tooltip **/
+
+.tooltip-bs-style1 {
+    position: relative;
+}
+
+.tooltip-bs-style1 .tooltip-bs-style1-text {
+    font-size: 12px;
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip-bs-style1 .tooltip-bs-style1-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-bs-style1:hover .tooltip-bs-style1-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.table .circle-icon{
+    padding: 3px 0px 2px 3px;
+    font-size: 99%;
+}
+
+.circle-icon:hover{
+    background-color: #ffffff;
+    color: #333333;
+}
+
+a.circle-icon:hover{
+    background-color: #ffffff;
+    color: #333333;
+}
+.bg-orangered{
+    background-color: orangered;
+}
+.bg-blue{
+    background-color: #2185D0;
+}
+.bg-green{
+    background-color: green;
+}
+.bg-blueviolet{
+    background-color: blueviolet;
+}
+.bg-yellowgreen{
+    background-color: yellowgreen;
+}
+.bg-orange{
+    background-color: #F2711C;
+}
+.bg-red{
+    background-color: red;
+}
+.bg-crimson{
+    background-color: crimson;
+}
+.bg-goldenrod{
+    background-color: goldenrod;
+}
+.bg-black{
+    background-color: #333333;
+}
+.bg-blue1{
+    background-color: #007bff;
+}
+.vertical_nav {
+    z-index:1; /*Add this*/
+}
+
+.table-font-style1{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.btn-disabled{
+    cursor: not-allowed;
+    background: dimgrey;
+    color: white;
+}
+
+.center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+
+
+/** toggle switch **/
+
+.switch {
+	margin: 0rem auto;
+}
+.switch {
+	width: 14rem;
+	position: relative;
+}
+.switch input {
+	position: absolute;
+	top: 0;
+	z-index: 2;
+	opacity: 0;
+	cursor: pointer;
+}
+.switch input:checked {
+	z-index: 1;
+}
+.switch input:checked + label {
+	opacity: 1;
+	cursor: default;
+}
+.switch input:not(:checked) + label:hover {
+	opacity: 0.5;
+}
+.switch label {
+	color: #000;
+	opacity: 0.33;
+	transition: opacity 0.25s ease;
+	cursor: pointer;
+}
+.switch .toggle-outside {
+	height: 100%;
+	border-radius: 2rem;
+	padding: 0.25rem;
+	overflow: hidden;
+	transition: 0.25s ease all;
+}
+.switch .toggle-inside {
+	border-radius: 5rem;
+	background: #FFFFFF;
+	position: absolute;
+	transition: 0.25s ease all;
+}
+.switch--horizontal {
+	width: 18rem;
+	height: 2rem;
+	margin: 0 auto;
+	font-size: 0;
+}
+.switch--horizontal input {
+	height: 2rem;
+	width: 4rem;
+	left: 4.4rem;
+	margin: 0;
+}
+.switch--horizontal label {
+	font-size: 1.0rem;
+	line-height: 2rem;
+	display: inline-block;
+	width: 4rem;
+	height: 100%;
+	margin: 0;
+	text-align: center;
+}
+.switch--horizontal label:last-of-type {
+	margin-left: 4.4rem;
+}
+.switch--horizontal .toggle-outside {
+	background: #cccccc;
+	position: absolute;
+	width: 4rem;
+	left: 4.4rem;
+}
+.switch--horizontal .toggle-inside {
+	height: 1.5rem;
+	width: 1.6rem;
+}
+.switch--horizontal input:checked ~ .toggle-outside	 {
+	background-color: #fc0;
+}
+.switch--horizontal input ~ input:checked ~ .toggle-outside	 {
+	background-color: #51cc8a;
+}
+.switch--horizontal input:checked ~ .toggle-outside .toggle-inside {
+	left: 0.25rem;
+}
+.switch--horizontal input ~ input:checked ~ .toggle-outside .toggle-inside {
+	left: 2.15rem;
+}
+.switch--no-label label {
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	overflow: hidden;
+}
+.switch--no-label input:checked ~ .toggle-outside .toggle-inside {
+	background: rgba(0,0,0,0.2);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+.switch--no-label input ~ input:checked ~ .toggle-outside {
+	background: #dfdfdf;
+}
+.switch--no-label input:checked ~ .toggle-outside	 {
+	background-color: #dfdfdf;
+}
+.switch--no-label input ~ input:checked ~ .toggle-outside .toggle-inside {
+	background: #777777;
+}
+
+.switch--no-label.switch--vertical {
+	width: 3rem;
+}
+.switch--no-label.switch--horizontal {
+	width: 4rem;
+}
+.switch--no-label.switch--horizontal input,
+.switch--no-label.switch--horizontal .toggle-outside {
+	left: 0;
+}
+.switch--expanding-inner input:checked + label:hover ~ .toggle-outside .toggle-inside {
+	height: 1.5rem;
+	width: 1.6rem;
+}
+.switch--expanding-inner.switch--horizontal input:hover ~ .toggle-outside .toggle-inside {
+	left: 2.25rem;
+}
+.switch--expanding-inner.switch--horizontal input:hover ~ input:checked ~ .toggle-outside .toggle-inside {
+	width: 3.5rem;
+}
+
+/** toggle switch ends */

@@ -1,0 +1,13 @@
+[Unit]
+Description=API Security Manager
+After=network.target remote-fs.target docker.service
+
+[Service]
+User=vagrant
+Group=vagrant
+WorkingDirectory=/app/manager
+ExecStart=/app/manager/manager
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

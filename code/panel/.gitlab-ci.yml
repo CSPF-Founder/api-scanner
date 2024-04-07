@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - build
+
+build:
+  stage: build
+  image: golang:1.22.1
+  tags:
+    - go
+  before_script:
+    - apt-get update && apt-get install -y libsqlite3-dev
+  script:
+    - make build
+
+lint:
+  stage: lint
+  image: golangci/golangci-lint:latest
+  tags:
+    - go
+  script:
+    - golangci-lint run --timeout 5m
+

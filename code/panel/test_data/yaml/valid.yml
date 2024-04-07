@@ -1,0 +1,268 @@
+openapi: 3.0.1
+info:
+  title: Vulnerable API
+  description: Vulnerable API
+  version: '0.1'
+servers:
+- url: http://192.168.56.1
+paths:
+  /api2/:
+    get:
+      description: Return API status
+      x-openapi-router-controller: vAPI
+      operationId: get_root
+      responses:
+        '200':
+          description: API status results
+          content:
+            'application/json':
+              schema:
+                type: object
+              examples: {}
+  /api2/tokens:
+    post:
+      description: Authenticate
+      x-openapi-router-controller: vAPI
+      operationId: get_token
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                username:
+                  type: string
+           
+      responses:
+        '200':
+          description: Authentication response
+          content:
+            'application/json':
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: Invalid input
+          content:
+            'application/problem+json':
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                type: string
+              
+  /api2/user/{user}:
+    get:
+      x-openapi-router-controller: vAPI
+      operationId: get_user
+      parameters:
+        - in: path
+          name: user
+          required: true
+          schema: 
+            type: string
+          description: User account
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+
+        '400':
+          description: Invalid input
+          content:
+            'application/problem+json':
+              schema:
+                type: string
+        '401':
+          description: Unauthenticated
+          content:
+            'application/json':
+              schema:
+                type: string
+        '403':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                type: string
+        '404':
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                type: string
+  /api2/user:
+    post:
+      description: Auto generated using Swagger Inspector
+      x-openapi-router-controller: vAPI
+      operationId: create_user
+      parameters:
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                username:
+                  type: string
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+            
+        '400':
+          description: Invalid input
+          content:
+            'application/json':
+              schema:
+                type: string
+        '401':
+          description: Unauthenticated
+          content:
+            'application/json':
+              schema:
+                type: string
+        '403':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                type: string
+  /api2/uptime:
+    get:
+      x-openapi-router-controller: vAPI
+      operationId: display_uptime
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            'application/json':
+              schema:
+                type: string
+              examples: {}
+  /api2/uptime/{flag}:
+    get:
+      x-openapi-router-controller: vAPI
+      operationId: display_uptime_flag
+      parameters:
+        - in: path
+          name: flag
+          required: true
+          schema: 
+            type: string
+      description: Flag for uptime
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            'application/json':
+              schema:
+                type: string
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                type: string
+  /api2/widget:
+    post:
+      description: Make widget reservation
+      x-openapi-router-controller: vAPI
+      operationId: create_widget_reservation
+      parameters:
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            
+      responses:
+        '200':
+          description: Successful widget reservation
+          content:
+            'application/json':
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: Invalid input
+          content:
+            'application/problem+json':
+              schema:
+                type: string
+        '401':
+          description: Unauthenticated
+          content:
+            'application/json':
+              schema:
+                type: string
+        '403':
+          description: Unauthorized
+          content:
+            'application/json':
+              schema:
+                type: string
+  /api1/api/user:
+    get:
+      summary: user
+      operationId: get-user
+      parameters:
+      - name: name
+        in: query
+        description: name of the user
+        schema:
+          type: string
+      responses:
+        '200':
+          description: aaa

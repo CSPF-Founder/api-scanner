@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --emptyOutDir --watch",
+    "build": "vite build --emptyOutDir ",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@rollup/plugin-inject": "^5.0.5",
+    "sass": "^1.69.7",
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "datatables.net": "^1.13.8",
+    "datatables.net-bs4": "^1.13.8",
+    "date-fns": "^3.2.0",
+    "jquery": "^3.7.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "simplebar": "^6.2.5"
+  }
+}

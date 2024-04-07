@@ -1,0 +1,47 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Folders
+_obj
+_test
+
+# mac specific
+.DS_Store
+
+# go modules
+/vendor
+
+# goreleaser artifacts
+dist
+bin/
+
+# Node Modules
+node_modules
+
+# Environment variables
+.env
+
+# IDE files
+.idea/
+.vscode/
+logfile
+
+# SSL Certificate folder
+/certs/
+
+# air temp folders
+/tmp/
+/.cache/
