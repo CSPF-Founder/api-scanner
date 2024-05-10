@@ -1,4 +1,3 @@
 #!/bin/bash
 # Pull docker
-docker pull owasp/zap2docker-stable:2.14.0
-
+docker pull zaproxy/zap-stable:2.15.0
