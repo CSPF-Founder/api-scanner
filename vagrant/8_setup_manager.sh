@@ -14,7 +14,7 @@ rm -f /app/manager/.env
 echo "DATABASE_URI = "$(cat /app/infra/docker-compose.yml | grep -o -P '(?<=DATABASE_URI: ).*(?)') >> /app/manager/.env
 sed -i 's/mariadb/127.0.0.1/g' /app/manager/.env
 echo "LOG_LEVEL = info" >> /app/manager/.env
-echo "SCANNER_DOCKER = owasp/zap2docker-stable" >> /app/manager/.env
+echo "SCANNER_DOCKER = zaproxy/zap-stable" >> /app/manager/.env
 echo "SCANNER_CMD = /app/bin/scanner" >> /app/manager/.env
 
 
