@@ -3,7 +3,7 @@
 ## Accessing the Panel
 
 On your desktop, open a browser (Firefox or Chrome, recommended: Firefox) and enter the following address.
-https://localhost:18443
+https://localhost:17443
 
 - You will get a self-signed certificate error message.  Click the 'Advanced' button and then click the 'Accept the Risk and Continue' button.
 

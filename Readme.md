@@ -56,7 +56,7 @@ In Windows, you need to manually reload as per the above command.
 
 ## Accessing the Panel
 
-The API Security Scanner Panel is available on this URL: https://localhost:18443. 
+The API Security Scanner Panel is available on this URL: https://localhost:17443. 
 
 ```
 Note: If you want to change the port, you can change forwardport in the vagrantfile.
