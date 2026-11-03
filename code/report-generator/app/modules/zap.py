@@ -1,6 +1,5 @@
 import os
 from urllib.parse import urlparse
-import configparser
 import urllib.parse
 
 # External dependencies
@@ -18,23 +17,6 @@ class ZapReporter:
 
         self.output_dir = os.path.join(self.job.get_local_work_dir(), "zapoutput/")
         self.auth_path = os.path.join(self.output_dir, "zap_config")
-
-    def get_auth_headers(self, auth_header_file, logger):
-        """
-        * Check if authfile has headers
-        """
-        auth_config = configparser.ConfigParser()
-        auth_config.read(auth_header_file)
-        list_of_values = auth_config.items("AUTH_HEADERS")
-        number_of_headers = len(list_of_values)
-        if number_of_headers == 1:
-            return list_of_values[0]
-        if number_of_headers == 0:
-            logger.info("No Security Headers")
-            return False
-        if number_of_headers > 1:
-            logger.error("Multiple auth headers. Cannot process")
-            return False
 
     # add zap data to report
     def add_to_report(

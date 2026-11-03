@@ -134,7 +134,7 @@ func (ctx *testContext) mockGetByUserID(user models.User) {
 	userRow := sqlmock.NewRows([]string{"id", "username", "password"}).
 		AddRow(user.ID, user.Username, user.Password)
 
-	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `users` WHERE id = ? ORDER BY `users`.`id` LIMIT ?")).
+	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `users` WHERE id=? ORDER BY `users`.`id` LIMIT ?")).
 		WithArgs(user.ID, 1).
 		WillReturnRows(userRow)
 }

@@ -30,7 +30,19 @@ ready(function () {
     return;
   }
 
+  // The scanner supports a single auth header, so the add control is hidden
+  // while a header row exists.
+  const addNewHttpHeadersLabel = document.querySelector('.add_new_http_headers_label');
+  const toggleAddHeaderControl = function () {
+    const hasHeader = httpHeaders.querySelector('.http-headers-div') !== null;
+    addNewHttpHeaders.classList.toggle('d-none', hasHeader);
+    addNewHttpHeadersLabel?.classList.toggle('d-none', hasHeader);
+  };
+
   addNewHttpHeaders.addEventListener('click', function () {
+    if (httpHeaders.querySelector('.http-headers-div') !== null) {
+      return;
+    }
     x++;
     httpHeaders.insertAdjacentHTML('beforeend', '<div class="pt-4 http-headers-div"> \
                                 <div class="row"> \
@@ -40,8 +52,8 @@ ready(function () {
                                     </div> \
                                     <div class="col-lg-6 colo-sm-12"> \
                                         <select class="form-control header_name" name="http_headers[][header_name]"> \
-                                            <option value="authorization">Authorization</option> \
-                                            <option value="x_api_key">x-api-key</option> \
+                                            <option value="Authorization">Authorization</option> \
+                                            <option value="x-api-key">x-api-key</option> \
                                             <option value="custom">Custom</option> \
                                         </select> \
                                     </div> \
@@ -68,6 +80,7 @@ ready(function () {
                                     </div> \
                                 </div> \
                             </div>');
+    toggleAddHeaderControl();
     
   });
 
@@ -89,6 +102,7 @@ ready(function () {
     if (closestDiv) {
         closestDiv.remove();
     }
+    toggleAddHeaderControl();
 
   });
 

@@ -98,37 +98,28 @@ func (c *JobController) handleScanFailure(
 	return nil
 }
 
-// getAuthHeaders returns the headers from the auth header file
+// getAuthHeaders returns the headers from the auth header file. At most one
+// header is supported because ZAP takes a single auth header.
 func (c *JobController) getAuthHeaders(authHeaderFile string) ([]schemas.AuthHeaderMap, error) {
-	// Check if auth file has headers
-	authConfig, err := ini.Load(authHeaderFile)
+	// Header values are opaque secrets, so "#", ";" and quotes are kept as is.
+	authConfig, err := ini.LoadSources(ini.LoadOptions{
+		IgnoreInlineComment:     true,
+		PreserveSurroundedQuote: true,
+	}, authHeaderFile)
 	if err != nil {
-		c.logger.Fatal("Error loading auth header file", err)
-		return nil, err
+		return nil, fmt.Errorf("loading auth header file: %w", err)
 	}
 
-	loadedHeaders := authConfig.Section("AUTH_HEADERS").Keys()
-	numberofHeaders := len(loadedHeaders)
-	if numberofHeaders == 0 {
+	keys := authConfig.Section("AUTH_HEADERS").Keys()
+	switch len(keys) {
+	case 0:
 		c.logger.Info("No Security Headers")
 		return nil, nil
-	} else if numberofHeaders > 1 {
-		c.logger.Error("Multiple Security Headers", nil)
-		return nil, nil
+	case 1:
+		return []schemas.AuthHeaderMap{{Name: keys[0].Name(), Value: keys[0].String()}}, nil
+	default:
+		return nil, fmt.Errorf("expected at most one auth header, found %d", len(keys))
 	}
-
-	headerData := []schemas.AuthHeaderMap{}
-	if numberofHeaders == 1 {
-		// return []string{authHeaders[0].String()}, nil
-		firstHeader := schemas.AuthHeaderMap{
-			Name:  loadedHeaders[0].Name(),
-			Value: loadedHeaders[0].String(),
-		}
-		headerData = append(headerData, firstHeader)
-		return headerData, nil
-	}
-
-	return nil, fmt.Errorf("Invalid Auth Header file")
 }
 
 // Run function handles the job and performs the scan
@@ -178,7 +169,12 @@ func (c *JobController) Run(ctx context.Context, model models.DBModel) error {
 
 	authHeaderData, err := c.getAuthHeaders(authHeaderFile)
 	if err != nil {
-		return err
+		return c.handleScanFailure(
+			ctx,
+			model,
+			fmt.Errorf("Invalid auth headers: %v", err),
+			jobstatus.ScanFailed,
+		)
 	}
 
 	serverURL, err := openapi.GetServerURLFromOpenAPI(openApiFile)

@@ -35,7 +35,10 @@ class MainController:
         """
         * Check if authfile has headers
         """
-        auth_config = configparser.ConfigParser()
+        # Header values are opaque secrets: "%" must not trigger interpolation
+        # and header names keep their case.
+        auth_config = configparser.ConfigParser(interpolation=None)
+        auth_config.optionxform = str
         auth_config.read(auth_header_file)
         list_of_values = auth_config.items("AUTH_HEADERS")
         number_of_headers = len(list_of_values)

@@ -28,42 +28,22 @@ func NewCatsModule(cfg config.Config, job models.Job) *CatsModule {
 }
 
 func (c *CatsModule) Run(ctx context.Context, openApiFile string, authHeaderData []schemas.AuthHeaderMap, serverUrl string) error {
-
-	var cmd *exec.Cmd
-
-	if len(authHeaderData) > 1 {
-		firstHeader := authHeaderData[0]
-		// if authHeaderData is not empty
-		cmd = exec.CommandContext(
-			ctx,
-			c.binPath,
-			"--contract",
-			openApiFile,
-			"--server",
-			serverUrl,
-			"-b",
-			"--output",
-			c.outputDir,
-			"-H",
-			firstHeader.Name+"="+firstHeader.Value,
-		)
-	} else {
-		cmd = exec.CommandContext(
-			ctx,
-			c.binPath,
-			"--contract",
-			openApiFile,
-			"--server",
-			serverUrl,
-			"-b",
-			"--output",
-			c.outputDir,
-		)
-	}
+	cmd := exec.CommandContext(ctx, c.binPath, c.buildArgs(openApiFile, authHeaderData, serverUrl)...)
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("Error in running catz: %v", string(out))
 	}
 	return nil
+}
+
+// buildArgs returns the CATS command line. Only the first auth header is
+// passed, matching what the ZAP scan supports.
+func (c *CatsModule) buildArgs(openApiFile string, authHeaderData []schemas.AuthHeaderMap, serverUrl string) []string {
+	args := []string{"--contract", openApiFile, "--server", serverUrl, "-b", "--output", c.outputDir}
+	if len(authHeaderData) > 0 {
+		header := authHeaderData[0]
+		args = append(args, "-H", header.Name+"="+header.Value)
+	}
+	return args
 }

@@ -22,6 +22,7 @@ import (
 	"github.com/CSPF-Founder/api-scanner/code/panel/utils"
 	"github.com/CSPF-Founder/api-scanner/code/panel/views"
 	"github.com/go-chi/chi/v5"
+	"golang.org/x/net/http/httpguts"
 )
 
 type scansController struct {
@@ -65,34 +66,64 @@ func (c *scansController) DisplayAdd(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// authHeader is an HTTP header the scanner sends with every request.
+type authHeader struct {
+	Name  string
+	Value string
+}
+
+var (
+	errIncompleteHeader = errors.New("Please fill all the inputs")
+	errInvalidHeader    = errors.New("Invalid header name or value")
+	errTooManyHeaders   = errors.New("Only one HTTP header is supported")
+)
+
+// parseAuthHeaders reads the http_headers[] rows of the add scan form.
+// Names and values must be valid HTTP header fields because they are written
+// to an INI file that the scanner and reporter parse. At most one header is
+// accepted because the scanner passes a single auth header to ZAP.
+func parseAuthHeaders(form url.Values) ([]authHeader, error) {
+	names := form["http_headers[][header_name]"]
+	values := form["http_headers[][header_value]"]
+	customNames := form["http_headers[][custom_header_name]"]
+	if len(names) > 1 {
+		return nil, errTooManyHeaders
+	}
+	if len(values) != len(names) {
+		return nil, errIncompleteHeader
+	}
+
+	headers := make([]authHeader, 0, len(names))
+	for i, name := range names {
+		if name == "custom" {
+			if i >= len(customNames) {
+				return nil, errIncompleteHeader
+			}
+			name = customNames[i]
+		}
+
+		value := values[i]
+		if name == "" || value == "" {
+			return nil, errIncompleteHeader
+		}
+		if !httpguts.ValidHeaderFieldName(name) || !httpguts.ValidHeaderFieldValue(value) {
+			return nil, errInvalidHeader
+		}
+		headers = append(headers, authHeader{Name: name, Value: value})
+	}
+	return headers, nil
+}
+
 func (c *scansController) AddHandler(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
 		c.SendJSONError(w, "Invalid file")
 		return
 	}
-	httpHeadersInput := r.Form["http_headers[][header_name]"]
-	var customHeaderName string
-
-	if len(httpHeadersInput) > 0 {
-		for i, httpHeader := range httpHeadersInput {
-			headerName := httpHeader
-			headerValue := r.Form["http_headers[][header_value]"][i]
-
-			if headerName == "" || headerValue == "" {
-				// http.Error(w, "Please fill all the inputs", http.StatusBadRequest)
-				c.SendJSONError(w, "Please fill all the inputs")
-				return
-			}
-
-			if headerName == "custom" {
-				customHeaderName = r.Form["http_headers[][custom_header_name]"][i]
-				if customHeaderName == "" {
-					c.SendJSONError(w, "Please fill all the inputs")
-					return
-				}
-			}
-		}
+	authHeaders, err := parseAuthHeaders(r.MultipartForm.Value)
+	if err != nil {
+		c.SendJSONError(w, err.Error())
+		return
 	}
 
 	file, handler, err := r.FormFile("yaml_file")
@@ -103,7 +134,7 @@ func (c *scansController) AddHandler(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	fileName := handler.Filename
-	fileType := filepath.Ext(fileName)[1:]
+	fileType := strings.TrimPrefix(filepath.Ext(fileName), ".")
 
 	allowedTypes := map[string]bool{"yml": true, "yaml": true}
 	if !allowedTypes[fileType] {
@@ -137,10 +168,10 @@ func (c *scansController) AddHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer os.Remove(tmpFileName)
 
-	c.handleJobCreation(w, r, tmpFileName)
+	c.handleJobCreation(w, r, tmpFileName, authHeaders)
 }
 
-func (c *scansController) handleJobCreation(w http.ResponseWriter, r *http.Request, tmpFileName string) {
+func (c *scansController) handleJobCreation(w http.ResponseWriter, r *http.Request, tmpFileName string, authHeaders []authHeader) {
 
 	serverURL, err := openapivalidator.ValidateOpenapiFile(tmpFileName)
 	if err != nil {
@@ -195,18 +226,8 @@ func (c *scansController) handleJobCreation(w http.ResponseWriter, r *http.Reque
 	defer fp.Close()
 
 	fmt.Fprintf(fp, "[AUTH_HEADERS]\n")
-	httpHeadersInput := r.Form["http_headers[][header_name]"]
-
-	if len(httpHeadersInput) > 0 {
-		for i, httpHeader := range httpHeadersInput {
-			headerName := httpHeader
-			headerValue := r.Form["http_headers[][header_value]"][i]
-
-			if headerName == "custom" {
-				headerName = r.Form["http_headers[][custom_header_name]"][i]
-			}
-			fmt.Fprintf(fp, "%s = %s\n", headerName, headerValue)
-		}
+	for _, header := range authHeaders {
+		fmt.Fprintf(fp, "%s = %s\n", header.Name, header.Value)
 	}
 
 	c.SendJSONSuccess(w, "Successfully added the scan")

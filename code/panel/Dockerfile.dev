@@ -40,7 +40,7 @@ WORKDIR /app/panel/
 # copy the source code into the image
 # COPY . .
 
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/air-verse/air@latest
 
 RUN chmod +x /app/panel/docker/dev.sh
 
