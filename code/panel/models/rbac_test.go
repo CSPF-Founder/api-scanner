@@ -75,7 +75,7 @@ func TestGetRoleByKeyword(t *testing.T) {
 			AddRow(role.ID, role.Keyword)
 
 		ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `roles` WHERE keyword = ?")).
-			WithArgs(role.Keyword).
+			WithArgs(role.Keyword, 1).
 			WillReturnRows(roleRow)
 	}
 
@@ -97,7 +97,7 @@ func TestGetNonExistentRoleByKeyword(t *testing.T) {
 
 	// Mock the database response for a non-existent role
 	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `roles` WHERE keyword = ?")).
-		WithArgs("bogus").
+		WithArgs("bogus", 1).
 		WillReturnError(fmt.Errorf("role not found"))
 
 	// Test for a non-existent role

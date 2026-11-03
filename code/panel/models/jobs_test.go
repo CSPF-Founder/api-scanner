@@ -12,19 +12,20 @@ func (ctx *testContext) mockJobByID(job Job) {
 	jobRow := sqlmock.NewRows([]string{"id", "status", "created_at", "user_id"}).
 		AddRow(job.ID, job.Status, job.CreatedAt, job.UserID)
 
-	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id=? ORDER BY `jobs`.`id` LIMIT 1")).
-		WithArgs(job.ID).
+	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id=? ORDER BY `jobs`.`id` LIMIT ?")).
+		WithArgs(job.ID, 1).
 		WillReturnRows(jobRow)
 }
 
-// func (ctx *testContext) mockJobByIDWithUser(job Job) {
-// 	jobRow := sqlmock.NewRows([]string{"id", "status", "created_at", "user_id"}).
-// 		AddRow(job.ID, job.Status, job.CreatedAt, job.UserID)
+func (ctx *testContext) mockJobByIDWithUser(job Job) {
+	jobRow := sqlmock.NewRows([]string{"id", "status", "created_at", "user_id"}).
+		AddRow(job.ID, job.Status, job.CreatedAt, job.UserID)
 
-//		ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id=? AND user_id=? ORDER BY `jobs`.`id` LIMIT 1")).
-//			WithArgs(job.ID, job.UserID).
-//			WillReturnRows(jobRow)
-//	}
+	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id=? AND user_id=? ORDER BY `jobs`.`id` LIMIT ?")).
+		WithArgs(job.ID, job.UserID, 1).
+		WillReturnRows(jobRow)
+}
+
 func TestGetJob(t *testing.T) {
 	ctx := setupTest(t)
 	testJob := Job{
@@ -55,7 +56,7 @@ func TestGetJobWithUser(t *testing.T) {
 		Status: jobstatus.ScanStarted,
 		UserID: 1,
 	}
-	ctx.mockJobByID(testJob)
+	ctx.mockJobByIDWithUser(testJob)
 	got, err := GetByIDAndUser(testJob.ID, testJob.UserID)
 	if err != nil {
 		t.Fatalf("error getting job: %v", err)

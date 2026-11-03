@@ -128,7 +128,6 @@ func (app *App) SetupRoutes() {
 	router := chi.NewRouter() // Initialize Chi router
 
 	// r.Use(middleware.RequestID)
-	router.Use(middleware.RealIP)
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
 

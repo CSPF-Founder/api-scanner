@@ -1,4 +1,4 @@
-FROM golang:1.22.1
+FROM golang:1.27-bookworm
 
 
 RUN apt-get update && \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y libsqlite3-dev
 
 RUN apt install -y curl
 
-RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 RUN apt-get install -y nodejs
 
 # create a working directory inside the image

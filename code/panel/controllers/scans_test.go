@@ -19,16 +19,16 @@ func (ctx *testContext) mockGetJobByID(job models.Job) {
 	jobRow := sqlmock.NewRows([]string{"id", "status", "created_at", "user_id"}).
 		AddRow(job.ID, job.Status, job.CreatedAt, job.UserID)
 
-	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id = ? ORDER BY `jobs`.`id` LIMIT 1")).
-		WithArgs(job.ID).
+	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id = ? ORDER BY `jobs`.`id` LIMIT ?")).
+		WithArgs(job.ID, 1).
 		WillReturnRows(jobRow)
 }
 
 func (ctx *testContext) mockEmptyGetJobByID(job models.Job) {
 	jobRow := sqlmock.NewRows([]string{"id", "status", "created_at", "user_id"})
 
-	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id = ? ORDER BY `jobs`.`id` LIMIT 1")).
-		WithArgs(job.ID).
+	ctx.mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `jobs` WHERE id = ? ORDER BY `jobs`.`id` LIMIT ?")).
+		WithArgs(job.ID, 1).
 		WillReturnRows(jobRow)
 }
 

@@ -1,4 +1,4 @@
-FROM golang:1.22.1-bookworm AS build-stage
+FROM golang:1.27-bookworm AS build-stage
 
 RUN adduser \
   --disabled-password \
@@ -14,7 +14,7 @@ WORKDIR /app/frontend
 
 RUN apt install -y curl
 
-RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 RUN apt-get install -y nodejs
 
 COPY frontend/ ./
